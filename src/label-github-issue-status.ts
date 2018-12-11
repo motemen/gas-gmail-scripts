@@ -42,7 +42,7 @@ global.main = function main() {
         continue;
       }
 
-      const updateMessageMatch = /^(Merged|Closed) #[0-9]+(?:\.| )/.exec(snippet.message);
+      const updateMessageMatch = /^(Merged|Closed|Reopened) #[0-9]+(?:\.| )/.exec(snippet.message);
       if (!updateMessageMatch) {
         continue;
       }
@@ -52,6 +52,9 @@ global.main = function main() {
         labelProcessed.addToThread(thread);
       } else if (updateMessageMatch[1] === "Closed") {
         githubClosedLabel.addToThread(thread);
+        labelProcessed.addToThread(thread);
+      } else if (updateMessageMatch[1] === "Reopened") {
+        githubClosedLabel.removeFromThread(thread);
         labelProcessed.addToThread(thread);
       }
     }

@@ -155,7 +155,7 @@ global.main = function main() {
             if (!snippet) {
                 continue;
             }
-            var updateMessageMatch = /^(Merged|Closed) #[0-9]+(?:\.| )/.exec(snippet.message);
+            var updateMessageMatch = /^(Merged|Closed|Reopened) #[0-9]+(?:\.| )/.exec(snippet.message);
             if (!updateMessageMatch) {
                 continue;
             }
@@ -165,6 +165,10 @@ global.main = function main() {
             }
             else if (updateMessageMatch[1] === "Closed") {
                 githubClosedLabel.addToThread(thread);
+                labelProcessed.addToThread(thread);
+            }
+            else if (updateMessageMatch[1] === "Reopened") {
+                githubClosedLabel.removeFromThread(thread);
                 labelProcessed.addToThread(thread);
             }
         }
