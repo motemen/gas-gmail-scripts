@@ -144,12 +144,12 @@ global.main = function main() {
                 continue;
             }
             var icsContent = attachment.getDataAsString();
-            var m = /^DTEND:([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})Z$/.exec(icsContent);
+            var m = /^DTEND:([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})Z$/m.exec(icsContent);
             if (!m) {
                 continue;
             }
-            var eventEnd = new Date(Date.UTC(parseInt(m[1]), parseInt(m[2]) + 1, parseInt(m[3]), parseInt(m[4]), parseInt(m[5]), parseInt(m[6])));
-            if (eventEnd > now) {
+            var eventEnd = new Date(Date.UTC(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10), parseInt(m[4], 10), parseInt(m[5], 10), parseInt(m[6], 10)));
+            if (eventEnd < now) {
                 thread.moveToArchive();
                 thread.addLabel(labelProcessed);
             }
